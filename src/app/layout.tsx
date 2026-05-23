@@ -19,12 +19,14 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ingrid silfverberg — motion artist",
+  title: "Ingrid Silfverberg — Motion Designer & Multimedia Artist",
   description:
     "Multidisciplinary artist portfolio — motion design, branding, film, UI/UX, and marketing.",
   openGraph: {
-    title: "ingrid silfverberg — motion artist",
-    description: "Turning vision into motion.",
+    title: "Ingrid Silfverberg – Motion Designer",
+    description: "Portfolio of motion design, branding, and UI/UX work.",
+    url: "https://ingrid-silfverberg.vercel.app",
+    siteName: "Ingrid Silfverberg Portfolio",
     type: "website",
   },
 };
