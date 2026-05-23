@@ -1,0 +1,184 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #0e0510;
+  --bg2: #1a0b22;
+  --purple-deep: #2d0a3e;
+  --purple-mid: #5c1a7a;
+  --magenta: #c0186e;
+  --pink: #e8359a;
+  --chrome1: #f4a0c8;
+  --chrome2: #c87de8;
+  --chrome3: #7b5de8;
+  --chrome4: #f08060;
+  --grid: rgba(180, 100, 220, 0.08);
+  --text: #f0e8f8;
+  --muted: rgba(240, 232, 248, 0.45);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg2: var(--bg2);
+  --color-purple-deep: var(--purple-deep);
+  --color-purple-mid: var(--purple-mid);
+  --color-magenta: var(--magenta);
+  --color-pink: var(--pink);
+  --color-chrome1: var(--chrome1);
+  --color-chrome2: var(--chrome2);
+  --color-chrome3: var(--chrome3);
+  --color-chrome4: var(--chrome4);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --font-display: var(--font-instrument-serif);
+  --font-serif: var(--font-instrument-serif);
+  --font-mono: var(--font-space-mono);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-space-mono), ui-monospace, monospace;
+  overflow-x: hidden;
+}
+
+/* Spline: 100% of hero viewport, scales proportionally on resize */
+.hero-spline-root {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.hero-spline-root .hero-spline-viewer,
+.hero-spline-root spline-viewer {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: top center;
+}
+
+@media (pointer: fine) {
+  body:has(.custom-cursor-enabled) {
+    cursor: none;
+  }
+}
+
+::selection {
+  background: rgba(200, 125, 232, 0.35);
+  color: var(--text);
+}
+
+.grid-texture {
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.text-gradient-chrome {
+  background: linear-gradient(
+    135deg,
+    var(--chrome1),
+    var(--chrome2),
+    var(--chrome3)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-gradient-hero {
+  background: linear-gradient(
+    135deg,
+    var(--chrome4) 0%,
+    var(--chrome1) 25%,
+    var(--chrome2) 50%,
+    var(--chrome3) 75%,
+    var(--chrome1) 100%
+  );
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.work-theme-1 {
+  background: linear-gradient(135deg, #2d0a3e 0%, #5c1a7a 100%);
+}
+.work-theme-2 {
+  background: linear-gradient(135deg, #1a0b22 0%, #3d1258 100%);
+}
+.work-theme-3 {
+  background: linear-gradient(135deg, #3d0822 0%, #7a1a4e 100%);
+}
+.work-theme-4 {
+  background: linear-gradient(135deg, #120a2e 0%, #2d1a5e 100%);
+}
+.work-theme-5 {
+  background: linear-gradient(135deg, #2d1a0a 0%, #5c3a1a 100%);
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 4s linear infinite;
+}
+
+@keyframes scrollpulse {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scaleY(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1.2);
+  }
+}
+
+.animate-scrollpulse {
+  animation: scrollpulse 2s ease-in-out infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 18s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-shimmer,
+  .animate-scrollpulse,
+  .animate-marquee {
+    animation: none;
+  }
+}
