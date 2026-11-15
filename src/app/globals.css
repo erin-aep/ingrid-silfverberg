@@ -48,7 +48,10 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-space-mono), ui-monospace, monospace;
-  overflow-x: hidden;
+  /* `clip` hides horizontal overflow WITHOUT creating a scroll container,
+     so `position: sticky` descendants (e.g. the hero scroll runway) keep
+     sticking to the viewport. `hidden` here would silently break them. */
+  overflow-x: clip;
 }
 
 /* Spline: 100% of hero viewport, scales proportionally on resize */
