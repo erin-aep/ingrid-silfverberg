@@ -12,6 +12,32 @@ const ctaPrimary =
 const ctaSecondary =
   "inline-flex items-center justify-center gap-2 rounded-full border border-[rgba(200,125,232,0.35)] bg-[rgba(92,26,122,0.15)] px-8 py-3 text-[0.65rem] tracking-[0.15em] text-chrome1 uppercase backdrop-blur-sm transition-all hover:border-chrome1 hover:bg-[rgba(192,24,110,0.15)]";
 
+/**
+ * A single gradient headline word with an ambient color drift and an
+ * italic hover/focus treatment. Two layers share one box: the regular
+ * layer holds the real, selectable text; the italic layer is decorative
+ * (aria-hidden) and crossfades in. All motion lives in CSS.
+ */
+function GradientWord({
+  text,
+  variant,
+}: {
+  text: string;
+  variant: "vision" | "motion";
+}) {
+  return (
+    <span className={`hero-word hero-word-${variant}`} tabIndex={0}>
+      <span className="hero-word__layer hero-word__layer--regular">{text}</span>
+      <span
+        className="hero-word__layer hero-word__layer--italic"
+        aria-hidden
+      >
+        {text}
+      </span>
+    </span>
+  );
+}
+
 export function Hero() {
   const reduced = usePrefersReducedMotion();
 
@@ -77,9 +103,10 @@ export function Hero() {
 
         <motion.p
           variants={item}
-          className="font-serif mb-8 text-[clamp(1rem,2.5vw,1.5rem)] tracking-wide text-muted italic"
+          className="font-serif pointer-events-auto mb-8 text-[clamp(1rem,2.5vw,1.5rem)] tracking-wide text-text"
         >
-          {site.tagline}
+          Turning <GradientWord text="vision" variant="vision" /> into{" "}
+          <GradientWord text="motion" variant="motion" />.
         </motion.p>
 
         <motion.div

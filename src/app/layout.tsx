@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Instrument_Serif, Space_Mono } from "next/font/google";
 import { CustomCursor } from "@/components/layout/CustomCursor";
+import { CanvasCursor } from "@/components/layout/CanvasCursor";
 import "./globals.css";
 
 const instrumentSerif = Instrument_Serif({
@@ -40,6 +41,7 @@ export default function RootLayout({
       className={`${instrumentSerif.variable} ${spaceMono.variable} scroll-smooth`}
     >
       <body className="min-h-screen antialiased">
+        <CanvasCursor />
         <CustomCursor />
         <a
           href="#main"
