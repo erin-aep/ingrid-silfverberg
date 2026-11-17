@@ -3,7 +3,7 @@ import { Marquee } from "@/components/layout/Marquee";
 import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/sections/Hero";
 import { ShowreelExperience } from "@/components/sections/ShowreelExperience";
-import { SelectedWork } from "@/components/sections/SelectedWork";
+import { CaseStudies } from "@/components/sections/CaseStudies";
 import { Services } from "@/components/sections/Services";
 import { About } from "@/components/sections/About";
 import { Testimonials } from "@/components/sections/Testimonials";
@@ -17,7 +17,7 @@ export default function Home() {
         <Hero />
         <Marquee />
         <ShowreelExperience />
-        <SelectedWork />
+        <CaseStudies />
         <Services />
         <About />
         <Testimonials />

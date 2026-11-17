@@ -137,6 +137,115 @@ export const workItems: WorkItem[] = [
   },
 ];
 
+/** Case study cards (the "Case Studies" section). One reusable shape for all. */
+export type CaseStudy = {
+  id: string;
+  title: string;
+  category: string; // e.g. "Motion"
+  year: string; // e.g. "2026"
+  tags: string[]; // additional tags, e.g. ["SaaS", "Design"]
+  /** Muted, looping, compressed clip that plays in the media container. */
+  video?: string;
+  /** Alternative to `video`: an animated gif. */
+  gif?: string;
+  /** Still shown before the clip loads / if no clip is set. */
+  poster?: string;
+  /** Parallax backdrop image; falls back to a branded gradient. */
+  background?: string;
+  href?: string;
+};
+
+export const caseStudies: CaseStudy[] = [
+  {
+    id: "absliq",
+    title: "Absliq • CS Ticketing SaaS",
+    category: "Motion",
+    year: "2026",
+    tags: ["SaaS", "Storyboard", "Design", "Animation"],
+    video: "/case-studies/cover-absliq.mp4",
+    background: "/case-studies/bg-absliq.png",
+  },
+  {
+    id: "galerly",
+    title: "Galerly • Photography SaaS",
+    category: "Motion",
+    year: "2026",
+    tags: ["SaaS", "Storyboard", "Design", "Animation"],
+    video: "/case-studies/cover-galerly.mp4",
+    background: "/case-studies/bg-galerly.png",
+  },
+  {
+    id: "saas-product-demo",
+    title: "SaaS Product Demo",
+    category: "Motion",
+    year: "2026",
+    tags: ["SaaS", "Storyboard", "Design", "Animation"],
+  },
+  {
+    id: "motion-animation-reel-2025",
+    title: "Motion Design & Animation Show Reel",
+    category: "Motion",
+    year: "2025",
+    tags: ["Showreel"],
+  },
+  {
+    id: "logo-animations",
+    title: "Logo Animations",
+    category: "Motion",
+    year: "2024",
+    tags: ["Branding", "Loops"],
+  },
+  {
+    id: "motion-reel-2023",
+    title: "Motion Design Show Reel",
+    category: "Motion",
+    year: "2023",
+    tags: ["Showreel"],
+  },
+  {
+    id: "pamulak",
+    title: "Pamulak National Arts Month Celebration",
+    category: "Branding",
+    year: "2023",
+    tags: ["Identity", "Campaign"],
+  },
+  {
+    id: "pastil",
+    title: "Pastil",
+    category: "Film",
+    year: "2025",
+    tags: ["Short Film", "Award-winning"],
+  },
+  {
+    id: "ang-maniniyot",
+    title: "Ang Maniniyot ni Papa Jisos",
+    category: "Film",
+    year: "2024",
+    tags: ["Short Film", "Award-winning"],
+  },
+  {
+    id: "g-spot",
+    title: "G-Spot | Smart Parking Finder App",
+    category: "UI / UX",
+    year: "2025",
+    tags: ["Product", "Mobile"],
+  },
+  {
+    id: "createlab",
+    title: "CreateLab Studios",
+    category: "UI / UX",
+    year: "2022",
+    tags: ["Web", "Brand"],
+  },
+  {
+    id: "marketing-materials",
+    title: "Marketing Materials",
+    category: "Marketing",
+    year: "2026",
+    tags: ["Creative Strategy"],
+  },
+];
+
 export const services = [
   {
     num: "01",
