@@ -141,7 +141,9 @@ export const workItems: WorkItem[] = [
 export type CaseStudy = {
   id: string;
   title: string;
-  category: string; // e.g. "Motion"
+  category: string; // filter taxonomy value, e.g. "Motion"
+  /** Optional display override for the meta line, e.g. "Motion Design". */
+  categoryLabel?: string;
   year: string; // e.g. "2026"
   tags: string[]; // additional tags, e.g. ["SaaS", "Design"]
   /** Muted, looping, compressed clip that plays in the media container. */
@@ -175,32 +177,32 @@ export const caseStudies: CaseStudy[] = [
     background: "/case-studies/bg-galerly.png",
   },
   {
-    id: "saas-product-demo",
-    title: "SaaS Product Demo",
+    id: "property-inspect",
+    title: "Property Inspect • Real Estate SaaS",
     category: "Motion",
     year: "2026",
-    tags: ["SaaS", "Storyboard", "Design", "Animation"],
+    tags: ["SaaS", "Design", "2D", "3D", "Animation"],
+    video: "/case-studies/cover-property-inspect.mp4",
+    background: "/case-studies/bg-property-inspect.png",
+  },
+  {
+    id: "swimbook",
+    title: "SwimBook.ai • Swim Team Management SaaS",
+    category: "Motion",
+    year: "2026",
+    tags: ["SaaS", "Storyboard", "Design", "2D & 3D Animation"],
+    video: "/case-studies/cover-swimbook.mp4",
+    background: "/case-studies/bg-swimbook.png",
   },
   {
     id: "motion-animation-reel-2025",
     title: "Motion Design & Animation Show Reel",
     category: "Motion",
+    categoryLabel: "Motion Design",
     year: "2025",
-    tags: ["Showreel"],
-  },
-  {
-    id: "logo-animations",
-    title: "Logo Animations",
-    category: "Motion",
-    year: "2024",
-    tags: ["Branding", "Loops"],
-  },
-  {
-    id: "motion-reel-2023",
-    title: "Motion Design Show Reel",
-    category: "Motion",
-    year: "2023",
-    tags: ["Showreel"],
+    tags: ["Storyboard", "Design", "2D", "3D", "Video Editing"],
+    video: "/case-studies/cover-reel-2025.mp4",
+    background: "/case-studies/bg-reel-2025.png",
   },
   {
     id: "pamulak",
@@ -236,13 +238,6 @@ export const caseStudies: CaseStudy[] = [
     category: "UI / UX",
     year: "2022",
     tags: ["Web", "Brand"],
-  },
-  {
-    id: "marketing-materials",
-    title: "Marketing Materials",
-    category: "Marketing",
-    year: "2026",
-    tags: ["Creative Strategy"],
   },
 ];
 

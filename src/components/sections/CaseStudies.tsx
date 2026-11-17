@@ -1,7 +1,14 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useScroll,
+  useSpring,
+  useTransform,
+  useVelocity,
+} from "framer-motion";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { CaseStudyCard } from "@/components/sections/work/CaseStudyCard";
@@ -12,6 +19,20 @@ export function CaseStudies() {
   const reduced = usePrefersReducedMotion();
   const [active, setActive] = useState<WorkCategory>("All");
 
+  // ── scroll-velocity warp: scroll SPEED sets the tilt intensity (0..1), each
+  //    card's position in the window sets the direction. Springs back to 0
+  //    (flat) when the scroll stops.
+  const { scrollY } = useScroll();
+  const scrollVelocity = useVelocity(scrollY);
+  const velAbs = useTransform(scrollVelocity, (v) =>
+    Math.min(Math.abs(v) / 2200, 1),
+  );
+  const velFactor = useSpring(velAbs, {
+    stiffness: 100,
+    damping: 20,
+    mass: 0.6,
+  });
+
   const filtered = useMemo(
     () =>
       active === "All"
@@ -21,8 +42,8 @@ export function CaseStudies() {
   );
 
   return (
-    <section id="work" className="bg-bg px-6 py-24 md:px-12">
-      <div className="mx-auto max-w-[1200px]">
+    <section id="work" className="bg-bg px-6 py-24 md:px-0">
+      <div className="mx-auto w-full max-w-[1760px] md:w-4/5">
         <FadeIn>
           <SectionHeading>Case Studies</SectionHeading>
         </FadeIn>
@@ -61,7 +82,7 @@ export function CaseStudies() {
                 exit={reduced ? undefined : { opacity: 0, scale: 0.98 }}
                 transition={{ duration: 0.35 }}
               >
-                <CaseStudyCard study={study} />
+                <CaseStudyCard study={study} velFactor={reduced ? undefined : velFactor} />
               </motion.div>
             ))}
           </AnimatePresence>

@@ -1,13 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import {
   motion,
+  useMotionTemplate,
   useMotionValue,
   useScroll,
   useSpring,
   useTransform,
+  type MotionValue,
 } from "framer-motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import type { CaseStudy } from "@/lib/data";
@@ -61,7 +63,16 @@ function Media({ study }: { study: CaseStudy }) {
   );
 }
 
-export function CaseStudyCard({ study }: { study: CaseStudy }) {
+const MAX_WARP_DEG = 17;
+
+export function CaseStudyCard({
+  study,
+  velFactor,
+}: {
+  study: CaseStudy;
+  /** Shared scroll-speed intensity (0..1); settles to 0 when idle. */
+  velFactor?: MotionValue<number>;
+}) {
   const reduced = usePrefersReducedMotion();
   const cardRef = useRef<HTMLElement>(null);
   const blockRef = useRef<HTMLDivElement>(null);
@@ -71,8 +82,63 @@ export function CaseStudyCard({ study }: { study: CaseStudy }) {
     target: cardRef,
     offset: ["start end", "end start"],
   });
+
+  // ── scroll warp direction: the card's centre crossing the window. 0.5 = the
+  //    middle line (pivot); above it faces down, below it faces up. Multiplied
+  //    by the shared scroll-speed factor so it only warps while scrolling.
+  const { scrollYProgress: centerProgress } = useScroll({
+    target: cardRef,
+    offset: ["center end", "center start"],
+  });
+  const warpDir = useTransform(centerProgress, [0, 1], [1, -1]); // bottom +1 → top −1
+  const warpX = useTransform(() =>
+    velFactor ? warpDir.get() * MAX_WARP_DEG * velFactor.get() : 0,
+  );
   const bgYRaw = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"]);
   const bgY = useSpring(bgYRaw, { stiffness: 120, damping: 30, mass: 0.4 });
+
+  // ── Lusion-style scroll reveal: the inner media + text emerge from the centre
+  //    of the viewport (scale up + fade in), then recede as the card leaves.
+  //    `reveal` plateaus at 1 while the card sits in the central band.
+  const reveal = useSpring(
+    useTransform(scrollYProgress, [0.08, 0.3, 0.7, 0.92], [0, 1, 1, 0]),
+    { stiffness: 140, damping: 32, mass: 0.4 },
+  );
+  const mediaOpacity = useTransform(reveal, [0, 0.6], [0, 1]);
+  const textY = useTransform(reveal, [0, 1], [20, 0]);
+  const titleClipPct = useTransform(reveal, [0, 1], [100, 0]);
+  const titleClip = useMotionTemplate`inset(${titleClipPct}% 0 0 0)`;
+
+  // ── entrance scale (0.75 → 1, eased) as the card enters, pivoting about the
+  //    CENTRE OF THE PAGE so the background grows outward from the viewport
+  //    middle rather than from its own centre.
+  const entryScale = useSpring(
+    useTransform(scrollYProgress, [0, 0.45], [0.75, 1], { clamp: true }),
+    { stiffness: 120, damping: 28, mass: 0.5 },
+  );
+  // Scale pivots on the viewport's horizontal centre (the gap between the two
+  // columns) and the card's OWN vertical centre — so the card grows outward
+  // from the centre line without shifting up or down.
+  const measureRef = useRef<HTMLDivElement>(null);
+  const originX = useMotionValue(0);
+  const transformOrigin = useMotionTemplate`${originX}px 50%`;
+
+  useLayoutEffect(() => {
+    const measure = () => {
+      const el = measureRef.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      originX.set(window.innerWidth / 2 - r.left);
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(document.body);
+    window.addEventListener("resize", measure);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, [originX]);
 
   // ── subtle 3D tilt of the inner media toward the cursor (reusable pattern)
   const px = useMotionValue(0); // -0.5 .. 0.5
@@ -97,12 +163,20 @@ export function CaseStudyCard({ study }: { study: CaseStudy }) {
 
   const inner = (
     <>
-      {/* visual block — bg drifts with the cursor; inner media tilts in 3D */}
-      <div
+      {/* visual block — grows from page centre on entry, warps (rotateX) with
+          scroll velocity, bg drifts with the cursor, inner media tilts in 3D */}
+      <div ref={measureRef}>
+      <motion.div
+        style={reduced ? undefined : { scale: entryScale, transformOrigin }}
+        className="will-change-transform"
+      >
+      <div className="[perspective:900px]">
+      <motion.div
         ref={blockRef}
         onMouseMove={onMove}
         onMouseLeave={onLeave}
-        className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-[rgba(205,129,228,0.18)] bg-bg2"
+        style={reduced || !velFactor ? undefined : { rotateX: warpX }}
+        className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-[rgba(205,129,228,0.18)] bg-bg2 will-change-transform"
       >
         {/* backdrop: scroll parallax (y) + subtle cursor drift (x/y) */}
         <motion.div
@@ -133,32 +207,45 @@ export function CaseStudyCard({ study }: { study: CaseStudy }) {
           </motion.div>
         </motion.div>
 
-        {/* inner media container — tilts in 3D toward the cursor */}
+        {/* inner media — emerges from centre on scroll + tilts toward the cursor */}
         <div className="absolute inset-0 flex items-center justify-center p-[7%] [perspective:1000px]">
           <motion.div
             data-cursor="big"
-            style={reduced ? undefined : { rotateX, rotateY }}
+            style={
+              reduced ? undefined : { rotateX, rotateY, opacity: mediaOpacity }
+            }
             className="relative aspect-video w-full overflow-hidden rounded-xl border border-white/10 bg-black shadow-[0_24px_60px_-20px_rgba(10,4,16,0.9)] will-change-transform"
           >
             <Media study={study} />
             <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-white/5" />
           </motion.div>
         </div>
+      </motion.div>
+      </div>
+      </motion.div>
       </div>
 
-      {/* meta line: Category • Year • tags */}
-      <p className="mt-5 font-mono text-[0.62rem] tracking-[0.2em] uppercase">
+      {/* meta line: Category • Year • tags — fades/slides in and out on scroll */}
+      <motion.p
+        style={reduced ? undefined : { opacity: reveal, y: textY }}
+        className="mt-5 font-mono text-[0.62rem] tracking-[0.2em] uppercase"
+      >
         <span className="text-[#CD81E4]">
-          {study.category} • {study.year}
+          {study.categoryLabel ?? study.category} • {study.year}
         </span>
         {study.tags.length > 0 && (
           <span className="text-[#DAD1E0]"> • {study.tags.join(" • ")}</span>
         )}
-      </p>
+      </motion.p>
 
-      {/* title — chrome gradient wipes left-to-right over the base on hover */}
+      {/* title — reveals with a rising mask on scroll; chrome wipe on hover */}
       <h3 className="mt-2 font-display text-[clamp(1.5rem,2.6vw,2.3rem)] leading-[1.1]">
-        <span className="relative inline-block">
+        <motion.span
+          style={
+            reduced ? undefined : { opacity: reveal, y: textY, clipPath: titleClip }
+          }
+          className="relative inline-block"
+        >
           <span className="text-[#DAD1E0]">{study.title}</span>
           <span
             aria-hidden
@@ -166,7 +253,7 @@ export function CaseStudyCard({ study }: { study: CaseStudy }) {
           >
             {study.title}
           </span>
-        </span>
+        </motion.span>
       </h3>
     </>
   );
