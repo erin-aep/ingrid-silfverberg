@@ -218,6 +218,13 @@ export const site = {
   behance: "https://www.behance.net/eisilfverberg",
   tallyProjectUrl: "https://tally.so/r/b56rx0",
   showreelVimeo: "https://player.vimeo.com/video/1173596837",
+  /** Looping, muted preview reel for the scroll experience.
+   *  Drop the files at these paths in public/ (webm optional). */
+  showreelVideo: "/showreel.mp4",
+  showreelVideoWebm: "/showreel.webm",
+  showreelPoster: "/images/showreel-poster.jpg",
+  showreelBody:
+    "I create motion-driven visuals and digital content that bring ideas, stories, and brands to life. From product animations and brand identities to cinematic visuals and digital campaigns, I turn concepts into compelling visual experiences that leave a lasting impression.",
   heroSpline:
     "https://prod.spline.design/0K1F2NrFx2E9F3Dl/scene.splinecode",
   tagline: "Turning vision into motion.",

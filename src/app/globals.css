@@ -44,6 +44,20 @@ html {
   }
 }
 
+/* Lenis smooth scroll. When active, Lenis owns scrolling, so disable native
+   smooth behavior. (The library's global `iframe { pointer-events: none }`
+   rule is intentionally omitted so the Vimeo lightbox + Spline stay clickable.) */
+.lenis,
+.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
 body {
   background: var(--bg);
   color: var(--text);
