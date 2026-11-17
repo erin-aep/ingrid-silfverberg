@@ -241,38 +241,106 @@ export const caseStudies: CaseStudy[] = [
   },
 ];
 
-export const services = [
+export type ServiceShape = {
+  src: string;
+  /** resting (hover) position within the card's media zone (CSS values) */
+  top?: string;
+  left?: string;
+  right?: string;
+  /** width as a percentage of the card */
+  width: string;
+  /** forward lift (px) applied on hover for the 3D float */
+  depth: number;
+  /** resting rotation, degrees */
+  rotate?: number;
+  /** idle origin offset (% of own box) the shape eases out from on hover */
+  fromX?: string;
+  fromY?: string;
+  /** idle scale (defaults 0.5) */
+  idleScale?: number;
+  /** hover scale — lets hover grow independently of the idle size (defaults 1) */
+  hoverScale?: number;
+  /**
+   * The lead shape is visible at idle (as the centred motif) and travels to its
+   * resting spot on hover — no crossfade. Others scale/fade in.
+   */
+  lead?: boolean;
+};
+
+export type Service = {
+  number: string;
+  title: string;
+  description: string;
+  /** scattered composition — the lead shape also serves as the idle motif */
+  cluster: ServiceShape[];
+  /** render the hinged clapperboard motif instead of the shape cluster */
+  clapper?: boolean;
+  /** render the assembling browser-window motif instead of the shape cluster */
+  web?: boolean;
+  /** render the video-editing timeline motif instead of the shape cluster */
+  edit?: boolean;
+};
+
+const shape = {
+  bowtie: "/services/motion-bowtie.svg",
+  circle: "/services/motion-circle.svg",
+  diamond: "/services/motion-diamond.svg",
+  nib: "/services/branding-nib.svg",
+} as const;
+
+// Motion Design and Branding have bespoke assets; the remaining cards reuse the
+// Motion composition as a placeholder until their own shapes are added.
+const motionCluster: ServiceShape[] = [
+  { src: shape.bowtie, top: "2%", right: "5%", width: "46%", depth: 72, rotate: -6, lead: true, idleScale: 0.69, fromX: "-48%", fromY: "82%" },
+  { src: shape.circle, top: "24%", left: "2%", width: "24%", depth: 40, fromX: "150%", fromY: "60%" },
+  { src: shape.diamond, top: "46%", right: "20%", width: "20%", depth: 56, rotate: 6, fromX: "-70%", fromY: "-40%" },
+];
+
+// Branding: a single pen-nib that scales up and spins to 135° on hover.
+const brandingCluster: ServiceShape[] = [
+  { src: shape.nib, top: "13%", right: "2%", width: "108%", depth: 60, rotate: -135, lead: true, idleScale: 0.62, hoverScale: 1.5, fromX: "2%", fromY: "16%" },
+];
+
+export const services: Service[] = [
   {
-    num: "01",
+    number: "01",
     title: "Motion Design",
     description:
       "2D/3D animation, title sequences, motion graphics, and kinetic typography that bring ideas to life.",
+    cluster: motionCluster,
   },
   {
-    num: "02",
+    number: "02",
     title: "Branding",
     description:
       "Brand identity systems, logo design, visual language, and guidelines built to last and move.",
+    cluster: brandingCluster,
   },
   {
-    num: "03",
+    number: "03",
     title: "Filmmaking",
     description:
-      "Direction, cinematography, and editing for short films, commercials, and documentary work.",
+      "Concept, direction, and edit — short films and brand stories shot with a cinematic, art-led eye.",
+    cluster: motionCluster,
+    clapper: true,
   },
   {
-    num: "04",
-    title: "UI / UX Design",
+    number: "04",
+    title: "Web Design",
     description:
-      "Interface design, prototyping, and interaction design for web and mobile experiences.",
+      "Editorial, interactive sites that turn a portfolio or product into an experience worth lingering on.",
+    cluster: motionCluster,
+    web: true,
   },
   {
-    num: "05",
-    title: "Marketing",
+    number: "05",
+    title: "Video Editing",
     description:
-      "Campaign design, social content, print, and digital materials that actually convert.",
+      "Rhythm, pacing, and polish — cutting raw footage into tight, expressive, scroll-stopping pieces.",
+    cluster: motionCluster,
+    edit: true,
   },
-] as const;
+];
 
 export type Testimonial = {
   id: string;
