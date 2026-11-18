@@ -291,14 +291,14 @@ const shape = {
 // Motion Design and Branding have bespoke assets; the remaining cards reuse the
 // Motion composition as a placeholder until their own shapes are added.
 const motionCluster: ServiceShape[] = [
-  { src: shape.bowtie, top: "2%", right: "5%", width: "46%", depth: 72, rotate: -6, lead: true, idleScale: 0.69, fromX: "-48%", fromY: "82%" },
+  { src: shape.bowtie, top: "2%", right: "5%", width: "46%", depth: 72, rotate: -6, lead: true, idleScale: 0.96, fromX: "-48%", fromY: "82%" },
   { src: shape.circle, top: "24%", left: "2%", width: "24%", depth: 40, fromX: "150%", fromY: "60%" },
   { src: shape.diamond, top: "46%", right: "20%", width: "20%", depth: 56, rotate: 6, fromX: "-70%", fromY: "-40%" },
 ];
 
 // Branding: a single pen-nib that scales up and spins to 135° on hover.
 const brandingCluster: ServiceShape[] = [
-  { src: shape.nib, top: "13%", right: "2%", width: "108%", depth: 60, rotate: -135, lead: true, idleScale: 0.62, hoverScale: 1.5, fromX: "2%", fromY: "16%" },
+  { src: shape.nib, top: "13%", right: "2%", width: "108%", depth: 60, rotate: -135, lead: true, idleScale: 0.9, hoverScale: 1.5, fromX: "2%", fromY: "16%" },
 ];
 
 export const services: Service[] = [

@@ -41,8 +41,8 @@ export function EditIcon() {
     : "block h-full w-full origin-top select-none opacity-0 [transform:scaleY(0)] group-hover/sv:opacity-100 group-hover/sv:[transform:scaleY(1)]";
 
   const indicatorCls = reduced
-    ? "block w-full select-none [transform:translate(0px,0px)_scale(1)] group-hover/sv:[transform:translate(0px,-115%)_scale(0.5)]"
-    : "block w-full origin-center select-none [transform:translate(0px,0px)_scale(1)] group-hover/sv:[transform:translate(0px,-61%)_scale(0.25)]";
+    ? "block w-full select-none [transform:translate(0px,0px)_scale(1.11)] group-hover/sv:[transform:translate(0px,-115%)_scale(0.5)]"
+    : "block w-full origin-center select-none [transform:translate(0px,0px)_scale(1.11)] group-hover/sv:[transform:translate(0px,-61%)_scale(0.25)]";
 
   return (
     <div className={rootCls} style={reduced ? undefined : { transitionTimingFunction: smooth }}>

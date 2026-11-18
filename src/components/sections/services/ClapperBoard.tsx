@@ -29,8 +29,8 @@ export function ClapperBoard() {
       <div
         className={
           reduced
-            ? "relative w-[62%] [transform:scale(1.2)]"
-            : "relative w-[62%] transition-transform duration-[650ms] [transform:translateY(0%)_scale(1.2)_rotate(0deg)] group-hover/sv:[transform:translateY(-30%)_scale(1.35)_rotate(-15deg)]"
+            ? "relative w-[62%] [transform:scale(1.15)]"
+            : "relative w-[62%] transition-transform duration-[650ms] [transform:translateY(0%)_scale(1.15)_rotate(0deg)] group-hover/sv:[transform:translateY(-30%)_scale(1.35)_rotate(-15deg)]"
         }
         style={{ aspectRatio: "162 / 143", transitionTimingFunction: ease }}
       >
