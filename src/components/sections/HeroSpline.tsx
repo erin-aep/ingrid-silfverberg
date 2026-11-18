@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 
 const SPLINE_SCRIPT =
-  "https://unpkg.com/@splinetool/viewer@1.12.95/build/spline-viewer.js";
+  "https://cdn.spline.design/@splinetool/viewer@2.0.184/build/spline-viewer.js";
 
 const SPLINE_SCENE =
   "https://prod.spline.design/0K1F2NrFx2E9F3Dl/scene.splinecode";

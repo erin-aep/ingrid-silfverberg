@@ -137,38 +137,210 @@ export const workItems: WorkItem[] = [
   },
 ];
 
-export const services = [
+/** Case study cards (the "Case Studies" section). One reusable shape for all. */
+export type CaseStudy = {
+  id: string;
+  title: string;
+  category: string; // filter taxonomy value, e.g. "Motion"
+  /** Optional display override for the meta line, e.g. "Motion Design". */
+  categoryLabel?: string;
+  year: string; // e.g. "2026"
+  tags: string[]; // additional tags, e.g. ["SaaS", "Design"]
+  /** Muted, looping, compressed clip that plays in the media container. */
+  video?: string;
+  /** Alternative to `video`: an animated gif. */
+  gif?: string;
+  /** Still shown before the clip loads / if no clip is set. */
+  poster?: string;
+  /** Parallax backdrop image; falls back to a branded gradient. */
+  background?: string;
+  href?: string;
+};
+
+export const caseStudies: CaseStudy[] = [
   {
-    num: "01",
+    id: "absliq",
+    title: "Absliq • CS Ticketing SaaS",
+    category: "Motion",
+    year: "2026",
+    tags: ["SaaS", "Storyboard", "Design", "Animation"],
+    video: "/case-studies/cover-absliq.mp4",
+    background: "/case-studies/bg-absliq.png",
+  },
+  {
+    id: "galerly",
+    title: "Galerly • Photography SaaS",
+    category: "Motion",
+    year: "2026",
+    tags: ["SaaS", "Storyboard", "Design", "Animation"],
+    video: "/case-studies/cover-galerly.mp4",
+    background: "/case-studies/bg-galerly.png",
+  },
+  {
+    id: "property-inspect",
+    title: "Property Inspect • Real Estate SaaS",
+    category: "Motion",
+    year: "2026",
+    tags: ["SaaS", "Design", "2D", "3D", "Animation"],
+    video: "/case-studies/cover-property-inspect.mp4",
+    background: "/case-studies/bg-property-inspect.png",
+  },
+  {
+    id: "swimbook",
+    title: "SwimBook.ai • Swim Team Management SaaS",
+    category: "Motion",
+    year: "2026",
+    tags: ["SaaS", "Storyboard", "Design", "2D & 3D Animation"],
+    video: "/case-studies/cover-swimbook.mp4",
+    background: "/case-studies/bg-swimbook.png",
+  },
+  {
+    id: "motion-animation-reel-2025",
+    title: "Motion Design & Animation Show Reel",
+    category: "Motion",
+    categoryLabel: "Motion Design",
+    year: "2025",
+    tags: ["Storyboard", "Design", "2D", "3D", "Video Editing"],
+    video: "/case-studies/cover-reel-2025.mp4",
+    background: "/case-studies/bg-reel-2025.png",
+  },
+  {
+    id: "pamulak",
+    title: "Pamulak National Arts Month Celebration",
+    category: "Branding",
+    year: "2023",
+    tags: ["Identity", "Campaign"],
+  },
+  {
+    id: "pastil",
+    title: "Pastil",
+    category: "Film",
+    year: "2025",
+    tags: ["Short Film", "Award-winning"],
+  },
+  {
+    id: "ang-maniniyot",
+    title: "Ang Maniniyot ni Papa Jisos",
+    category: "Film",
+    year: "2024",
+    tags: ["Short Film", "Award-winning"],
+  },
+  {
+    id: "g-spot",
+    title: "G-Spot | Smart Parking Finder App",
+    category: "UI / UX",
+    year: "2025",
+    tags: ["Product", "Mobile"],
+  },
+  {
+    id: "createlab",
+    title: "CreateLab Studios",
+    category: "UI / UX",
+    year: "2022",
+    tags: ["Web", "Brand"],
+  },
+];
+
+export type ServiceShape = {
+  src: string;
+  /** resting (hover) position within the card's media zone (CSS values) */
+  top?: string;
+  left?: string;
+  right?: string;
+  /** width as a percentage of the card */
+  width: string;
+  /** forward lift (px) applied on hover for the 3D float */
+  depth: number;
+  /** resting rotation, degrees */
+  rotate?: number;
+  /** idle origin offset (% of own box) the shape eases out from on hover */
+  fromX?: string;
+  fromY?: string;
+  /** idle scale (defaults 0.5) */
+  idleScale?: number;
+  /** hover scale — lets hover grow independently of the idle size (defaults 1) */
+  hoverScale?: number;
+  /**
+   * The lead shape is visible at idle (as the centred motif) and travels to its
+   * resting spot on hover — no crossfade. Others scale/fade in.
+   */
+  lead?: boolean;
+};
+
+export type Service = {
+  number: string;
+  title: string;
+  description: string;
+  /** scattered composition — the lead shape also serves as the idle motif */
+  cluster: ServiceShape[];
+  /** render the hinged clapperboard motif instead of the shape cluster */
+  clapper?: boolean;
+  /** render the assembling browser-window motif instead of the shape cluster */
+  web?: boolean;
+  /** render the video-editing timeline motif instead of the shape cluster */
+  edit?: boolean;
+};
+
+const shape = {
+  bowtie: "/services/motion-bowtie.svg",
+  circle: "/services/motion-circle.svg",
+  diamond: "/services/motion-diamond.svg",
+  nib: "/services/branding-nib.svg",
+} as const;
+
+// Motion Design and Branding have bespoke assets; the remaining cards reuse the
+// Motion composition as a placeholder until their own shapes are added.
+const motionCluster: ServiceShape[] = [
+  { src: shape.bowtie, top: "2%", right: "5%", width: "46%", depth: 72, rotate: -6, lead: true, idleScale: 0.96, fromX: "-48%", fromY: "82%" },
+  { src: shape.circle, top: "24%", left: "2%", width: "24%", depth: 40, fromX: "150%", fromY: "60%" },
+  { src: shape.diamond, top: "46%", right: "20%", width: "20%", depth: 56, rotate: 6, fromX: "-70%", fromY: "-40%" },
+];
+
+// Branding: a single pen-nib that scales up and spins to 135° on hover.
+const brandingCluster: ServiceShape[] = [
+  { src: shape.nib, top: "13%", right: "2%", width: "108%", depth: 60, rotate: -135, lead: true, idleScale: 0.9, hoverScale: 1.5, fromX: "2%", fromY: "16%" },
+];
+
+export const services: Service[] = [
+  {
+    number: "01",
     title: "Motion Design",
     description:
       "2D/3D animation, title sequences, motion graphics, and kinetic typography that bring ideas to life.",
+    cluster: motionCluster,
   },
   {
-    num: "02",
+    number: "02",
     title: "Branding",
     description:
       "Brand identity systems, logo design, visual language, and guidelines built to last and move.",
+    cluster: brandingCluster,
   },
   {
-    num: "03",
+    number: "03",
     title: "Filmmaking",
     description:
-      "Direction, cinematography, and editing for short films, commercials, and documentary work.",
+      "Concept, direction, and edit — short films and brand stories shot with a cinematic, art-led eye.",
+    cluster: motionCluster,
+    clapper: true,
   },
   {
-    num: "04",
-    title: "UI / UX Design",
+    number: "04",
+    title: "Web Design",
     description:
-      "Interface design, prototyping, and interaction design for web and mobile experiences.",
+      "Editorial, interactive sites that turn a portfolio or product into an experience worth lingering on.",
+    cluster: motionCluster,
+    web: true,
   },
   {
-    num: "05",
-    title: "Marketing",
+    number: "05",
+    title: "Video Editing",
     description:
-      "Campaign design, social content, print, and digital materials that actually convert.",
+      "Rhythm, pacing, and polish — cutting raw footage into tight, expressive, scroll-stopping pieces.",
+    cluster: motionCluster,
+    edit: true,
   },
-] as const;
+];
 
 export type Testimonial = {
   id: string;
@@ -218,6 +390,13 @@ export const site = {
   behance: "https://www.behance.net/eisilfverberg",
   tallyProjectUrl: "https://tally.so/r/b56rx0",
   showreelVimeo: "https://player.vimeo.com/video/1173596837",
+  /** Looping, muted preview reel for the scroll experience.
+   *  Drop the files at these paths in public/ (webm optional). */
+  showreelVideo: "/showreel.mp4",
+  showreelVideoWebm: "/showreel.webm",
+  showreelPoster: "/images/showreel-poster.jpg",
+  showreelBody:
+    "I create motion-driven visuals and digital content that bring ideas, stories, and brands to life. From product animations and brand identities to cinematic visuals and digital campaigns, I turn concepts into compelling visual experiences that leave a lasting impression.",
   heroSpline:
     "https://prod.spline.design/0K1F2NrFx2E9F3Dl/scene.splinecode",
   tagline: "Turning vision into motion.",
