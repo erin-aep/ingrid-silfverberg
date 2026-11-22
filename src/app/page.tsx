@@ -7,6 +7,7 @@ import { CaseStudies } from "@/components/sections/CaseStudies";
 import { Services } from "@/components/sections/Services";
 import { About } from "@/components/sections/About";
 import { Testimonials } from "@/components/sections/Testimonials";
+import { CtaCard } from "@/components/sections/CtaCard";
 import { Contact } from "@/components/sections/Contact";
 
 export default function Home() {
@@ -21,6 +22,7 @@ export default function Home() {
         <Services />
         <About />
         <Testimonials />
+        <CtaCard />
         <Contact />
       </main>
       <Footer />

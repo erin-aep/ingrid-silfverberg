@@ -404,3 +404,75 @@ export const site = {
   /** Drop your portrait at public/images/about.jpg (or update this path). */
   aboutPhoto: "/images/about.jpg",
 } as const;
+
+/** About-the-artist scroll scene: composited portrait + curtain, a drawn-in
+ *  accent line, three headline states and the capability bullets. */
+export const about = {
+  bg: "/about/artist-bg.webp",
+  photo: "/about/artist-photo.webp",
+  line: "/about/artist-line.svg",
+  // Vertical carousel: 12 boxes; placeholder count for now (last = portrait).
+  boxCount: 12,
+  // Per-box layered art (bg + fg) as provided; filled in one box at a time.
+  boxes: [
+    { bg: "/about/box1-bg.webp", fg: "/about/box1-fg.webp" }, // box 1
+    { bg: "/about/box2-bg.webp", fg: "/about/box2-fg.webp" }, // box 2
+    { bg: "/about/box3-bg.webp", fg: "/about/box3-fg.webp" }, // box 3
+    { bg: "/about/box4-bg.webp", fg: "/about/box4-fg.webp" }, // box 4
+    { fg: "/about/box5.webp", full: true }, // box 5 — single full-frame image
+    { bg: "/about/box6-bg.webp", fg: "/about/box6-fg.webp" }, // box 6
+    { fg: "/about/box7.webp", full: true }, // box 7 — single full-frame image
+    { bg: "/about/box8-bg.webp", fg: "/about/box8-fg.webp" }, // box 8
+    { bg: "/about/box9-bg.webp", fg: "/about/box9-fg.webp" }, // box 9
+    { bg: "/about/box10-bg.webp", fg: "/about/box10-fg.webp" }, // box 10
+    { fg: "/about/box11.webp", full: true }, // box 11 — single full-frame image
+  ] as ({ bg?: string; fg: string; full?: boolean } | null)[],
+  // Flanking copy around the centred box — morphs at the 7th box.
+  carouselLead: { left: "Every vision", right: "has a story." }, // vision italic
+  carouselPromise: { left: "I can bring", right: "yours to life." }, // life italic
+  // Final screen intro (top-left).
+  hello: "Hi! I’m",
+  name: "Ingrid.",
+  // (legacy, kept for reference)
+  lead: ["Every vision", "has a story."],
+  promise: ["I’ll bring", "yours to", "life."],
+  // Final screen — the pitch + capability bullets.
+  pitchLead: "Brands collaborate with me because I",
+  pitchAccent: "see beyond the brief.",
+  points: [
+    {
+      marker: "/about/bullet-purpose.svg",
+      pre: "I design with",
+      emph: "purpose",
+      body: "I create distinct brand identities, graphic designs, and motion visuals.",
+    },
+    {
+      marker: "/about/bullet-details.svg",
+      pre: "I value the",
+      emph: "details",
+      body: "I bring every creative concept to life with polished execution.",
+    },
+    {
+      marker: "/about/bullet-life.svg",
+      pre: "I bring ideas to",
+      emph: "life",
+      body: "I combine motion design, creative direction, and visual storytelling.",
+    },
+    {
+      marker: "/about/bullet-intention.svg",
+      pre: "I create with",
+      emph: "intention",
+      body: "I craft strategic visuals that align with your vision and connect with audiences.",
+    },
+  ],
+} as const;
+
+/** Closing CTA card (after Testimonials). */
+export const cta = {
+  lead: ["Let’s build", "something people", "remember"], // "remember" italic
+  sub: "from global tech companies to growing startups.",
+  action: "Let’s talk.", // "talk" italic
+  copyLabel: "Copy my email",
+  copied: "Eyyy lez get it!",
+  icon: "/cta-grid.svg",
+} as const;
