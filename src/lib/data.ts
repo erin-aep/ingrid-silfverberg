@@ -476,3 +476,81 @@ export const cta = {
   copied: "Eyyy lez get it!",
   icon: "/cta-grid.svg",
 } as const;
+
+/** FAQ section (after the CTA card, before the footer). */
+export const faq = {
+  label: "Good to know",
+  heading: "Questions, answered.",
+  groups: [
+    {
+      id: "01",
+      title: "Services",
+      items: [
+        {
+          q: "What creative services do you offer?",
+          a: "I specialize in motion design, animation, video production, and digital design. From brand animations and SaaS explainer videos to 2D and 3D visuals, I combine design and storytelling to create engaging visual experiences that communicate ideas effectively.",
+        },
+        {
+          q: "Do you create both 2D and 3D animations?",
+          a: "Absolutely! I work across both 2D and 3D animation, depending on the project’s creative direction and requirements. Whether it’s motion graphics, animated illustrations, 3D visuals, or product animations, I enjoy exploring different techniques to bring ideas to life.",
+        },
+        {
+          q: "Do you work with SaaS companies and technology brands?",
+          a: "Yes! I work with SaaS companies and technology-driven brands to translate products, features, and complex ideas into engaging visual content. This includes product animations, UI motion, explainer videos, and promotional content designed to make digital experiences easier to understand and more memorable.",
+        },
+      ],
+    },
+    {
+      id: "02",
+      title: "Collaboration",
+      items: [
+        {
+          q: "Who do you typically work with?",
+          a: "I collaborate with startups, SaaS companies, creative agencies, marketing teams, established brands, and independent creators. I’m particularly drawn to projects that value thoughtful design, creative experimentation, and meaningful visual storytelling.",
+        },
+        {
+          q: "Do you work with international clients?",
+          a: "Absolutely! I’m based in the Philippines and work remotely with clients and creative teams worldwide. I’m comfortable collaborating across different time zones, adapting to existing workflows, and communicating throughout the creative process.",
+        },
+        {
+          q: "What does your creative process look like?",
+          a: "Every project is different, but my process generally follows five stages:",
+          steps: [
+            {
+              term: "Discovery",
+              def: "Understanding your goals, requirements, and creative vision.",
+            },
+            {
+              term: "Direction",
+              def: "Establishing the visual approach, style, and overall concept.",
+            },
+            {
+              term: "Production",
+              def: "Bringing everything to life through design, animation, and editing.",
+            },
+            {
+              term: "Refinement",
+              def: "Reviewing feedback and making the necessary adjustments.",
+            },
+            {
+              term: "Delivery",
+              def: "Preparing and handing over the final assets in the agreed formats.",
+            },
+          ],
+          aAfter:
+            "I believe good creative work comes from a balance of clear communication, thoughtful execution, and collaboration.",
+        },
+      ],
+    },
+    {
+      id: "03",
+      title: "Projects",
+      items: [
+        {
+          q: "How much do your services cost?",
+          a: "Every project is unique, so pricing depends on its scope, complexity, timeline, and deliverables. I provide custom quotes based on your specific requirements — so the number you get reflects exactly what your project needs, with no templates and no guesswork.",
+        },
+      ],
+    },
+  ],
+} as const;
