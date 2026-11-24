@@ -107,14 +107,16 @@ export function BriefForm() {
   const canSubmit =
     data.name.trim().length > 0 &&
     emailValid &&
+    data.types.length > 0 &&
     data.building.trim().length > 0 &&
-    data.budget.length > 0;
+    data.budget.length > 0 &&
+    data.timing.length > 0;
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     if (!canSubmit) {
-      setError("Please add your name, a valid email, what we're building, and a budget.");
+      setError("Please add your name, a valid email, a project type, what we're creating, a budget, and timing.");
       return;
     }
     if (!web3formsKey) {
@@ -268,7 +270,7 @@ export function BriefForm() {
           {/* project type */}
           <fieldset className="mt-14">
             <legend className={fieldLabel}>
-              What kind of project? <span className="text-muted">(optional)</span>
+              What kind of project?
             </legend>
             <div className="mt-5 flex flex-wrap gap-3">
               {contactPage.projectTypes.map((t) => (
@@ -337,7 +339,7 @@ export function BriefForm() {
           {/* timing */}
           <fieldset className="mt-14">
             <legend className={fieldLabel}>
-              Timing <span className="text-muted">(optional)</span>
+              Timing
             </legend>
             <div className="mt-5 flex flex-wrap gap-3">
               {contactPage.timings.map((t) => (

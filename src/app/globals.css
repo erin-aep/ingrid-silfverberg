@@ -36,6 +36,13 @@
 
 html {
   scroll-behavior: smooth;
+  /* Hide the scrollbar (scrolling still works). The scrollbar lives on the
+     root element, so it must be hidden here too — not only on body. */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+html::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -66,6 +73,12 @@ body {
      so `position: sticky` descendants (e.g. the hero scroll runway) keep
      sticking to the viewport. `hidden` here would silently break them. */
   overflow-x: clip;
+  /* Hide the scrollbar (scrolling still works). */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
 }
 
 /* Spline: 100% of hero viewport, scales proportionally on resize */
