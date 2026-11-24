@@ -1,6 +1,7 @@
 "use client";
 
 import Lenis from "lenis";
+import { usePathname } from "next/navigation";
 import {
   createContext,
   useContext,
@@ -28,6 +29,7 @@ export function useLenis() {
 export function SmoothScroll({ children }: { children: ReactNode }) {
   const reduced = usePrefersReducedMotion();
   const lenisRef = useRef<Lenis | null>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     if (reduced) return;
@@ -57,6 +59,21 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
       lenisRef.current = null;
     };
   }, [reduced]);
+
+  // On client-side navigation, Lenis keeps its own internal scroll target and
+  // cached page dimensions. Without this, a soft nav (e.g. tapping the logo to
+  // return home) can leave Lenis parked at the previous page's scroll offset —
+  // landing mid-page in a sticky scroll scene — while the document actually
+  // reset to the top. Snap Lenis to the top and recompute on every route change.
+  useEffect(() => {
+    const lenis = lenisRef.current;
+    if (!lenis) {
+      window.scrollTo(0, 0);
+      return;
+    }
+    lenis.scrollTo(0, { immediate: true, force: true });
+    lenis.resize();
+  }, [pathname]);
 
   return (
     <LenisContext.Provider value={lenisRef}>{children}</LenisContext.Provider>

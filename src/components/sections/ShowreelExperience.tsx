@@ -285,7 +285,7 @@ function ShowreelScroll() {
     <section ref={sectionRef} id="showreel" className="relative h-[440vh]">
       <div
         ref={stageRef}
-        className="sticky top-0 h-screen overflow-hidden"
+        className="sticky top-0 h-screen overflow-hidden bg-bg"
       >
         {/* WebGL reel (shader positions + warps the card) */}
         <ReelCanvas stateRef={reelState} />

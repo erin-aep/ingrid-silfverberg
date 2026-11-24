@@ -6,7 +6,7 @@ import { useState } from "react";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SectionLabel } from "@/components/ui/SectionLabel";
-import { faq, site } from "@/lib/data";
+import { faq } from "@/lib/data";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -41,9 +41,7 @@ export function Faq() {
             something?
           </p>
           <Link
-            href={site.tallyProjectUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/contact"
             data-cursor="big"
             className="group mt-6 inline-flex items-center gap-2 text-[0.62rem] tracking-[0.18em] text-chrome2 uppercase transition-colors hover:text-chrome1"
           >

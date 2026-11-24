@@ -138,13 +138,7 @@ export function Hero() {
             />
             <span className="relative z-[1]">View Work</span>
           </Link>
-          <Link
-            href={site.tallyProjectUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={ctaSecondary}
-            data-cursor="big"
-          >
+          <Link href="/contact" className={ctaSecondary} data-cursor="big">
             Start a project →
           </Link>
         </motion.div>

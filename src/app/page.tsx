@@ -21,9 +21,9 @@ export default function Home() {
         <ShowreelExperience />
         <CaseStudies />
         <Services />
+        <CtaCard />
         <About />
         <Testimonials />
-        <CtaCard />
         <Faq />
         <Contact />
       </main>

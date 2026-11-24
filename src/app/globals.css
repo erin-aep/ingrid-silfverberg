@@ -192,10 +192,59 @@ body {
   animation: marquee 18s linear infinite;
 }
 
+/* Living "blob": organic border-radius morph with a gentle breathe + drift.
+   The vertical colour orientation is preserved (no full rotation). */
+@keyframes blobmorph {
+  0% {
+    border-radius: 46% 54% 58% 42% / 42% 46% 54% 58%;
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  25% {
+    border-radius: 60% 40% 44% 56% / 56% 48% 52% 44%;
+    transform: translate(-2.5%, -1.5%) scale(1.04) rotate(2deg);
+  }
+  50% {
+    border-radius: 40% 60% 54% 46% / 62% 40% 60% 38%;
+    transform: translate(2.5%, 1%) scale(0.98) rotate(-2deg);
+  }
+  75% {
+    border-radius: 56% 44% 38% 62% / 44% 60% 40% 56%;
+    transform: translate(-1.5%, 1.5%) scale(1.03) rotate(1deg);
+  }
+  100% {
+    border-radius: 46% 54% 58% 42% / 42% 46% 54% 58%;
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+}
+
+.animate-blobmorph {
+  animation: blobmorph 16s ease-in-out infinite;
+}
+
+/* Per-character "ticker": each new character flashes white → rose → white
+   as it lands on the live brief receipt. */
+@keyframes charflash {
+  0% {
+    color: #ffffff;
+  }
+  50% {
+    color: #c73e5d;
+  }
+  100% {
+    color: #ffffff;
+  }
+}
+
+.char-flash {
+  animation: charflash 0.5s ease both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-shimmer,
   .animate-scrollpulse,
-  .animate-marquee {
+  .animate-marquee,
+  .animate-blobmorph,
+  .char-flash {
     animation: none;
   }
 }

@@ -384,10 +384,11 @@ export const site = {
   name: "ingrid silfverberg",
   title: "ingrid silfverberg — motion artist",
   email: "motionbyerin@gmail.com",
-  instagram: "https://www.instagram.com/motion.by.erin/",
-  instagramHandle: "@motion.by.erin",
+  instagram: "https://www.instagram.com/motion.by.ingrid/",
+  instagramHandle: "@motion.by.ingrid",
   vimeo: "https://vimeo.com/user114953797?fl=pl&fe=by",
   behance: "https://www.behance.net/eisilfverberg",
+  linkedin: "https://www.linkedin.com/in/ericasilfverberg/",
   tallyProjectUrl: "https://tally.so/r/b56rx0",
   showreelVimeo: "https://player.vimeo.com/video/1173596837",
   /** Looping, muted preview reel for the scroll experience.
@@ -404,6 +405,67 @@ export const site = {
   /** Drop your portrait at public/images/about.jpg (or update this path). */
   aboutPhoto: "/images/about.jpg",
 } as const;
+
+/** Footer services menu — grouped offerings shown in the closing block.
+ *  `cols: 2` splits a group's items into two columns (Motion). */
+export const footerServices = [
+  {
+    tag: "Motion",
+    cols: 2,
+    items: [
+      "SaaS Product Launch",
+      "SaaS Explainer Videos",
+      "SaaS Marketing Collaterals",
+      "2D Film Animation",
+      "Logo Animation",
+      "Social Media Ads",
+    ],
+  },
+  {
+    tag: "Video Editing",
+    items: [
+      "User-Generated Content",
+      "Short Form Content",
+      "Long Form Content",
+      "Film",
+    ],
+  },
+  {
+    tag: "Branding",
+    items: ["Branding Identity", "Social Media Content", "Logo Design"],
+  },
+] as const;
+
+/** /contact page — the "Let's talk" brief form + live receipt. */
+export const contactPage = {
+  heading: "Let’s talk",
+  intro:
+    "A few details about your project and budget are enough to get started. The clearer the brief, the better the collaboration.",
+  responseNote: "I reply within two working days.",
+  /** IANA zone for the live local-time readout. */
+  timezone: "Asia/Manila",
+  timezoneLabel: "UTC+8 Davao, Philippines",
+  projectTypes: [
+    "SaaS/Product",
+    "Motion Design",
+    "Video Editing",
+    "Branding",
+    "Graphic Design",
+    "Marketing",
+  ],
+  budgets: ["Under $2k", "$2-5k", "$5-10k", "$10-25k", "$25k+", "Not sure yet"],
+  timings: [
+    "As soon as possible",
+    "In 1-3 months",
+    "Later this year",
+    "Just exploring",
+  ],
+  privacyNote: "I use your details only to answer you.",
+} as const;
+
+/** Public Web3Forms access key — safe to expose client-side; it only routes
+ *  submissions to the inbox configured on web3forms.com. Paste the key here. */
+export const web3formsKey = "1f51fd7b-d34f-4c39-83f6-960a06b8ae8a";
 
 /** About-the-artist scroll scene: composited portrait + curtain, a drawn-in
  *  accent line, three headline states and the capability bullets. */
@@ -469,8 +531,8 @@ export const about = {
 
 /** Closing CTA card (after Testimonials). */
 export const cta = {
-  lead: ["Let’s build", "something people", "remember"], // "remember" italic
-  sub: "from global tech companies to growing startups.",
+  lead: ["Let’s build", "something that", "stands out"], // "stands out" italic
+  sub: "from global tech companies to scaling startups.",
   action: "Let’s talk.", // "talk" italic
   copyLabel: "Copy my email",
   copied: "Eyyy lez get it!",
