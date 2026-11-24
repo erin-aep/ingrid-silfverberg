@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Instrument_Serif, Space_Mono } from "next/font/google";
 import { CustomCursor } from "@/components/layout/CustomCursor";
+import { CanvasCursor } from "@/components/layout/CanvasCursor";
+import { SmoothScroll } from "@/components/layout/SmoothScroll";
+import { PageTransition } from "@/components/layout/PageTransition";
+import { ScrollProgress } from "@/components/layout/ScrollProgress";
 import "./globals.css";
 
 const instrumentSerif = Instrument_Serif({
@@ -42,14 +46,19 @@ export default function RootLayout({
       className={`${instrumentSerif.variable} ${spaceMono.variable} scroll-smooth`}
     >
       <body className="min-h-screen antialiased">
+        <CanvasCursor />
         <CustomCursor />
+        <ScrollProgress />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[10000] focus:rounded focus:bg-chrome2 focus:px-4 focus:py-2 focus:text-bg"
         >
           Skip to content
         </a>
-        {children}
+        <SmoothScroll>
+          <PageTransition />
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   );

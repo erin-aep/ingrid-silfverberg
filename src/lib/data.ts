@@ -137,38 +137,234 @@ export const workItems: WorkItem[] = [
   },
 ];
 
-export const services = [
+/** Case study cards (the "Case Studies" section). One reusable shape for all. */
+export type CaseStudy = {
+  id: string;
+  title: string;
+  category: string; // filter taxonomy value, e.g. "Motion"
+  /** Optional display override for the meta line, e.g. "Motion Design". */
+  categoryLabel?: string;
+  year: string; // e.g. "2026"
+  tags: string[]; // additional tags, e.g. ["SaaS", "Design"]
+  /** Muted, looping, compressed clip that plays in the media container. */
+  video?: string;
+  /** Alternative to `video`: an animated gif. */
+  gif?: string;
+  /** Still shown before the clip loads / if no clip is set. */
+  poster?: string;
+  /** Parallax backdrop image; falls back to a branded gradient. */
+  background?: string;
+  href?: string;
+};
+
+export const caseStudies: CaseStudy[] = [
   {
-    num: "01",
+    id: "absliq",
+    title: "Absliq • CS Ticketing SaaS",
+    category: "Motion",
+    year: "2026",
+    tags: ["SaaS", "Storyboard", "Design", "Animation"],
+    video: "/case-studies/cover-absliq.mp4",
+    background: "/case-studies/bg-absliq.png",
+  },
+  {
+    id: "galerly",
+    title: "Galerly • Photography SaaS",
+    category: "Motion",
+    year: "2026",
+    tags: ["SaaS", "Storyboard", "Design", "Animation"],
+    video: "/case-studies/cover-galerly.mp4",
+    background: "/case-studies/bg-galerly.png",
+  },
+  {
+    id: "property-inspect",
+    title: "Property Inspect • Real Estate SaaS",
+    category: "Motion",
+    year: "2026",
+    tags: ["SaaS", "Design", "2D", "3D", "Animation"],
+    video: "/case-studies/cover-property-inspect.mp4",
+    background: "/case-studies/bg-property-inspect.png",
+  },
+  {
+    id: "swimbook",
+    title: "SwimBook.ai • Swim Team Management SaaS",
+    category: "Motion",
+    year: "2026",
+    tags: ["SaaS", "Storyboard", "Design", "2D & 3D Animation"],
+    video: "/case-studies/cover-swimbook.mp4",
+    background: "/case-studies/bg-swimbook.png",
+  },
+  {
+    id: "motion-animation-reel-2025",
+    title: "Motion Design & Animation Show Reel",
+    category: "Motion",
+    categoryLabel: "Motion Design",
+    year: "2025",
+    tags: ["Storyboard", "Design", "2D", "3D", "Video Editing"],
+    video: "/case-studies/cover-reel-2025.mp4",
+    background: "/case-studies/bg-reel-2025.png",
+  },
+  {
+    id: "motion-reel-2023",
+    title: "Motion Design Show Reel",
+    category: "Motion",
+    categoryLabel: "Motion Design",
+    year: "2023",
+    tags: ["Storyboard", "Design", "2D", "3D", "Video Editing"],
+    video:
+      "/case-studies/cover-reel-2023-ingrid-silfverberg-motion-design.mp4",
+    background: "/case-studies/bg-reel-2023.png",
+  },
+  {
+    id: "cebu-pacific",
+    title: "Cebu Pacific Airlines",
+    category: "Branding",
+    categoryLabel: "Branding Identity",
+    year: "2026",
+    tags: ["Graphic Design", "Illustration", "Merch"],
+    poster: "/case-studies/cover-cebu-pacific-ingrid-silfverberg-branding.png",
+    background: "/case-studies/bg-cebu-pacific-ingrid-silfverberg-branding.png",
+  },
+  {
+    id: "pamulak",
+    title: "Ateneo National Arts Month Celebration",
+    category: "Branding",
+    categoryLabel: "Branding Identity",
+    year: "2024",
+    tags: ["Branding", "Graphic Design", "Social Media"],
+    poster: "/case-studies/cover-pamulak-ingrid-silfverberg-branding.png",
+    background: "/case-studies/bg-pamulak-ingrid-silfverberg-branding.png",
+  },
+  {
+    id: "pastil",
+    title: "Pastil",
+    category: "Film",
+    year: "2025",
+    tags: ["Short Film", "Award-winning"],
+  },
+  {
+    id: "ang-maniniyot",
+    title: "Ang Maniniyot ni Papa Jisos",
+    category: "Film",
+    year: "2024",
+    tags: ["Short Film", "Award-winning"],
+  },
+  {
+    id: "g-spot",
+    title: "G-Spot | Smart Parking Finder App",
+    category: "UI / UX",
+    year: "2025",
+    tags: ["Product", "Mobile"],
+  },
+  {
+    id: "createlab",
+    title: "CreateLab Studios",
+    category: "UI / UX",
+    year: "2022",
+    tags: ["Web", "Brand"],
+  },
+];
+
+export type ServiceShape = {
+  src: string;
+  /** resting (hover) position within the card's media zone (CSS values) */
+  top?: string;
+  left?: string;
+  right?: string;
+  /** width as a percentage of the card */
+  width: string;
+  /** forward lift (px) applied on hover for the 3D float */
+  depth: number;
+  /** resting rotation, degrees */
+  rotate?: number;
+  /** idle origin offset (% of own box) the shape eases out from on hover */
+  fromX?: string;
+  fromY?: string;
+  /** idle scale (defaults 0.5) */
+  idleScale?: number;
+  /** hover scale — lets hover grow independently of the idle size (defaults 1) */
+  hoverScale?: number;
+  /**
+   * The lead shape is visible at idle (as the centred motif) and travels to its
+   * resting spot on hover — no crossfade. Others scale/fade in.
+   */
+  lead?: boolean;
+};
+
+export type Service = {
+  number: string;
+  title: string;
+  description: string;
+  /** scattered composition — the lead shape also serves as the idle motif */
+  cluster: ServiceShape[];
+  /** render the hinged clapperboard motif instead of the shape cluster */
+  clapper?: boolean;
+  /** render the assembling browser-window motif instead of the shape cluster */
+  web?: boolean;
+  /** render the video-editing timeline motif instead of the shape cluster */
+  edit?: boolean;
+};
+
+const shape = {
+  bowtie: "/services/motion-bowtie.svg",
+  circle: "/services/motion-circle.svg",
+  diamond: "/services/motion-diamond.svg",
+  nib: "/services/branding-nib.svg",
+} as const;
+
+// Motion Design and Branding have bespoke assets; the remaining cards reuse the
+// Motion composition as a placeholder until their own shapes are added.
+const motionCluster: ServiceShape[] = [
+  { src: shape.bowtie, top: "2%", right: "5%", width: "46%", depth: 72, rotate: -6, lead: true, idleScale: 0.96, fromX: "-48%", fromY: "82%" },
+  { src: shape.circle, top: "24%", left: "2%", width: "24%", depth: 40, fromX: "150%", fromY: "60%" },
+  { src: shape.diamond, top: "46%", right: "20%", width: "20%", depth: 56, rotate: 6, fromX: "-70%", fromY: "-40%" },
+];
+
+// Branding: a single pen-nib that scales up and spins to 135° on hover.
+const brandingCluster: ServiceShape[] = [
+  { src: shape.nib, top: "13%", right: "2%", width: "108%", depth: 60, rotate: -135, lead: true, idleScale: 0.9, hoverScale: 1.5, fromX: "2%", fromY: "16%" },
+];
+
+export const services: Service[] = [
+  {
+    number: "01",
     title: "Motion Design",
     description:
       "2D/3D animation, title sequences, motion graphics, and kinetic typography that bring ideas to life.",
+    cluster: motionCluster,
   },
   {
-    num: "02",
+    number: "02",
     title: "Branding",
     description:
       "Brand identity systems, logo design, visual language, and guidelines built to last and move.",
+    cluster: brandingCluster,
   },
   {
-    num: "03",
+    number: "03",
     title: "Filmmaking",
     description:
-      "Direction, cinematography, and editing for short films, commercials, and documentary work.",
+      "Concept, direction, and edit — short films and brand stories shot with a cinematic, art-led eye.",
+    cluster: motionCluster,
+    clapper: true,
   },
   {
-    num: "04",
-    title: "UI / UX Design",
+    number: "04",
+    title: "Web Design",
     description:
-      "Interface design, prototyping, and interaction design for web and mobile experiences.",
+      "Editorial, interactive sites that turn a portfolio or product into an experience worth lingering on.",
+    cluster: motionCluster,
+    web: true,
   },
   {
-    num: "05",
-    title: "Marketing",
+    number: "05",
+    title: "Video Editing",
     description:
-      "Campaign design, social content, print, and digital materials that actually convert.",
+      "Rhythm, pacing, and polish — cutting raw footage into tight, expressive, scroll-stopping pieces.",
+    cluster: motionCluster,
+    edit: true,
   },
-] as const;
+];
 
 export type Testimonial = {
   id: string;
@@ -212,16 +408,235 @@ export const site = {
   name: "ingrid silfverberg",
   title: "ingrid silfverberg — motion artist",
   email: "motionbyerin@gmail.com",
-  instagram: "https://www.instagram.com/motion.by.erin/",
-  instagramHandle: "@motion.by.erin",
+  instagram: "https://www.instagram.com/motion.by.ingrid/",
+  instagramHandle: "@motion.by.ingrid",
   vimeo: "https://vimeo.com/user114953797?fl=pl&fe=by",
   behance: "https://www.behance.net/eisilfverberg",
+  linkedin: "https://www.linkedin.com/in/ericasilfverberg/",
   tallyProjectUrl: "https://tally.so/r/b56rx0",
   showreelVimeo: "https://player.vimeo.com/video/1173596837",
+  /** Looping, muted preview reel for the scroll experience.
+   *  Drop the files at these paths in public/ (webm optional). */
+  showreelVideo: "/showreel.mp4",
+  showreelVideoWebm: "/showreel.webm",
+  showreelPoster: "/images/showreel-poster.jpg",
+  showreelBody:
+    "I create motion-driven visuals and digital content that bring ideas, stories, and brands to life. From product animations and brand identities to cinematic visuals and digital campaigns, I turn concepts into compelling visual experiences that leave a lasting impression.",
   heroSpline:
     "https://prod.spline.design/0K1F2NrFx2E9F3Dl/scene.splinecode",
   tagline: "Turning vision into motion.",
   location: "Based in the Philippines · Working globally",
   /** Drop your portrait at public/images/about.jpg (or update this path). */
   aboutPhoto: "/images/about.jpg",
+} as const;
+
+/** Footer services menu — grouped offerings shown in the closing block.
+ *  `cols: 2` splits a group's items into two columns (Motion). */
+export const footerServices = [
+  {
+    tag: "Motion",
+    cols: 2,
+    items: [
+      "SaaS Product Launch",
+      "SaaS Explainer Videos",
+      "SaaS Marketing Collaterals",
+      "2D Film Animation",
+      "Logo Animation",
+      "Social Media Ads",
+    ],
+  },
+  {
+    tag: "Video Editing",
+    items: [
+      "User-Generated Content",
+      "Short Form Content",
+      "Long Form Content",
+      "Film",
+    ],
+  },
+  {
+    tag: "Branding",
+    items: ["Branding Identity", "Social Media Content", "Logo Design"],
+  },
+] as const;
+
+/** /contact page — the "Let's talk" brief form + live receipt. */
+export const contactPage = {
+  heading: "Let’s talk",
+  intro:
+    "A few details about your project and budget are enough to get started. The clearer the brief, the better the collaboration.",
+  responseNote: "I reply within two working days.",
+  /** IANA zone for the live local-time readout. */
+  timezone: "Asia/Manila",
+  timezoneLabel: "UTC+8 Davao, Philippines",
+  projectTypes: [
+    "SaaS/Product",
+    "Motion Design",
+    "Video Editing",
+    "Branding",
+    "Graphic Design",
+    "Marketing",
+  ],
+  budgets: ["Under $2k", "$2-5k", "$5-10k", "$10-25k", "$25k+", "Not sure yet"],
+  timings: [
+    "As soon as possible",
+    "In 1-3 months",
+    "Later this year",
+    "Just exploring",
+  ],
+  privacyNote: "I use your details only to answer you.",
+} as const;
+
+/** Public Web3Forms access key — safe to expose client-side; it only routes
+ *  submissions to the inbox configured on web3forms.com. Paste the key here. */
+export const web3formsKey = "1f51fd7b-d34f-4c39-83f6-960a06b8ae8a";
+
+/** About-the-artist scroll scene: composited portrait + curtain, a drawn-in
+ *  accent line, three headline states and the capability bullets. */
+export const about = {
+  bg: "/about/artist-bg.webp",
+  photo: "/about/artist-photo.webp",
+  line: "/about/artist-line.svg",
+  // Vertical carousel: 12 boxes; placeholder count for now (last = portrait).
+  boxCount: 12,
+  // Per-box layered art (bg + fg) as provided; filled in one box at a time.
+  boxes: [
+    { bg: "/about/box1-bg.webp", fg: "/about/box1-fg.webp" }, // box 1
+    { bg: "/about/box2-bg.webp", fg: "/about/box2-fg.webp" }, // box 2
+    { bg: "/about/box3-bg.webp", fg: "/about/box3-fg.webp" }, // box 3
+    { bg: "/about/box4-bg.webp", fg: "/about/box4-fg.webp" }, // box 4
+    { fg: "/about/box5.webp", full: true }, // box 5 — single full-frame image
+    { bg: "/about/box6-bg.webp", fg: "/about/box6-fg.webp" }, // box 6
+    { fg: "/about/box7.webp", full: true }, // box 7 — single full-frame image
+    { bg: "/about/box8-bg.webp", fg: "/about/box8-fg.webp" }, // box 8
+    { bg: "/about/box9-bg.webp", fg: "/about/box9-fg.webp" }, // box 9
+    { bg: "/about/box10-bg.webp", fg: "/about/box10-fg.webp" }, // box 10
+    { fg: "/about/box11.webp", full: true }, // box 11 — single full-frame image
+  ] as ({ bg?: string; fg: string; full?: boolean } | null)[],
+  // Flanking copy around the centred box — morphs at the 7th box.
+  carouselLead: { left: "Every vision", right: "has a story." }, // vision italic
+  carouselPromise: { left: "I can bring", right: "yours to life." }, // life italic
+  // Final screen intro (top-left).
+  hello: "Hi! I’m",
+  name: "Ingrid.",
+  // (legacy, kept for reference)
+  lead: ["Every vision", "has a story."],
+  promise: ["I’ll bring", "yours to", "life."],
+  // Final screen — the pitch + capability bullets.
+  pitchLead: "Brands collaborate with me because I",
+  pitchAccent: "see beyond the brief.",
+  points: [
+    {
+      marker: "/about/bullet-purpose.svg",
+      pre: "I design with",
+      emph: "purpose",
+      body: "I create distinct brand identities, graphic designs, and motion visuals.",
+    },
+    {
+      marker: "/about/bullet-details.svg",
+      pre: "I value the",
+      emph: "details",
+      body: "I bring every creative concept to life with polished execution.",
+    },
+    {
+      marker: "/about/bullet-life.svg",
+      pre: "I bring ideas to",
+      emph: "life",
+      body: "I combine motion design, creative direction, and visual storytelling.",
+    },
+    {
+      marker: "/about/bullet-intention.svg",
+      pre: "I create with",
+      emph: "intention",
+      body: "I craft strategic visuals that align with your vision and connect with audiences.",
+    },
+  ],
+} as const;
+
+/** Closing CTA card (after Testimonials). */
+export const cta = {
+  lead: ["Let’s build", "something that", "stands out"], // "stands out" italic
+  sub: "from global tech companies to scaling startups.",
+  action: "Let’s talk.", // "talk" italic
+  copyLabel: "Copy my email",
+  copied: "Eyyy lez get it!",
+  icon: "/cta-grid.svg",
+} as const;
+
+/** FAQ section (after the CTA card, before the footer). */
+export const faq = {
+  label: "Good to know",
+  heading: "Questions, answered.",
+  groups: [
+    {
+      id: "01",
+      title: "Services",
+      items: [
+        {
+          q: "What creative services do you offer?",
+          a: "I specialize in motion design, animation, video production, and digital design. From brand animations and SaaS explainer videos to 2D and 3D visuals, I combine design and storytelling to create engaging visual experiences that communicate ideas effectively.",
+        },
+        {
+          q: "Do you create both 2D and 3D animations?",
+          a: "Absolutely! I work across both 2D and 3D animation, depending on the project’s creative direction and requirements. Whether it’s motion graphics, animated illustrations, 3D visuals, or product animations, I enjoy exploring different techniques to bring ideas to life.",
+        },
+        {
+          q: "Do you work with SaaS companies and technology brands?",
+          a: "Yes! I work with SaaS companies and technology-driven brands to translate products, features, and complex ideas into engaging visual content. This includes product animations, UI motion, explainer videos, and promotional content designed to make digital experiences easier to understand and more memorable.",
+        },
+      ],
+    },
+    {
+      id: "02",
+      title: "Collaboration",
+      items: [
+        {
+          q: "Who do you typically work with?",
+          a: "I collaborate with startups, SaaS companies, creative agencies, marketing teams, established brands, and independent creators. I’m particularly drawn to projects that value thoughtful design, creative experimentation, and meaningful visual storytelling.",
+        },
+        {
+          q: "Do you work with international clients?",
+          a: "Absolutely! I’m based in the Philippines and work remotely with clients and creative teams worldwide. I’m comfortable collaborating across different time zones, adapting to existing workflows, and communicating throughout the creative process.",
+        },
+        {
+          q: "What does your creative process look like?",
+          a: "Every project is different, but my process generally follows five stages:",
+          steps: [
+            {
+              term: "Discovery",
+              def: "Understanding your goals, requirements, and creative vision.",
+            },
+            {
+              term: "Direction",
+              def: "Establishing the visual approach, style, and overall concept.",
+            },
+            {
+              term: "Production",
+              def: "Bringing everything to life through design, animation, and editing.",
+            },
+            {
+              term: "Refinement",
+              def: "Reviewing feedback and making the necessary adjustments.",
+            },
+            {
+              term: "Delivery",
+              def: "Preparing and handing over the final assets in the agreed formats.",
+            },
+          ],
+          aAfter:
+            "I believe good creative work comes from a balance of clear communication, thoughtful execution, and collaboration.",
+        },
+      ],
+    },
+    {
+      id: "03",
+      title: "Projects",
+      items: [
+        {
+          q: "How much do your services cost?",
+          a: "Every project is unique, so pricing depends on its scope, complexity, timeline, and deliverables. I provide custom quotes based on your specific requirements — so the number you get reflects exactly what your project needs, with no templates and no guesswork.",
+        },
+      ],
+    },
+  ],
 } as const;

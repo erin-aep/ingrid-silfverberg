@@ -12,6 +12,32 @@ const ctaPrimary =
 const ctaSecondary =
   "inline-flex items-center justify-center gap-2 rounded-full border border-[rgba(200,125,232,0.35)] bg-[rgba(92,26,122,0.15)] px-8 py-3 text-[0.65rem] tracking-[0.15em] text-chrome1 uppercase backdrop-blur-sm transition-all hover:border-chrome1 hover:bg-[rgba(192,24,110,0.15)]";
 
+/**
+ * A single gradient headline word with an ambient color drift and an
+ * italic hover/focus treatment. Two layers share one box: the regular
+ * layer holds the real, selectable text; the italic layer is decorative
+ * (aria-hidden) and crossfades in. All motion lives in CSS.
+ */
+function GradientWord({
+  text,
+  variant,
+}: {
+  text: string;
+  variant: "vision" | "motion";
+}) {
+  return (
+    <span className={`hero-word hero-word-${variant}`} tabIndex={0}>
+      <span className="hero-word__layer hero-word__layer--regular">{text}</span>
+      <span
+        className="hero-word__layer hero-word__layer--italic"
+        aria-hidden
+      >
+        {text}
+      </span>
+    </span>
+  );
+}
+
 export function Hero() {
   const reduced = usePrefersReducedMotion();
 
@@ -34,8 +60,12 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-8 pt-24 pb-20"
+      className="relative min-h-[calc(100vh+500px)]"
     >
+      {/* Sticky stage: stays pinned to the viewport while the 500px of
+          runway below scrolls past, giving the Spline scroll event its
+          travel distance (End After 400px) to progress Base → New State. */}
+      <div className="sticky top-0 flex h-screen flex-col items-center justify-center overflow-hidden px-8 pt-24 pb-20">
       <HeroSpline />
 
       <div
@@ -77,9 +107,10 @@ export function Hero() {
 
         <motion.p
           variants={item}
-          className="font-serif mb-8 text-[clamp(1rem,2.5vw,1.5rem)] tracking-wide text-muted italic"
+          className="font-serif pointer-events-auto mb-8 text-[clamp(1rem,2.5vw,1.5rem)] tracking-wide text-text"
         >
-          {site.tagline}
+          Turning <GradientWord text="vision" variant="vision" /> into{" "}
+          <GradientWord text="motion" variant="motion" />.
         </motion.p>
 
         <motion.div
@@ -107,13 +138,7 @@ export function Hero() {
             />
             <span className="relative z-[1]">View Work</span>
           </Link>
-          <Link
-            href={site.tallyProjectUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={ctaSecondary}
-            data-cursor="big"
-          >
+          <Link href="/contact" className={ctaSecondary} data-cursor="big">
             Start a project →
           </Link>
         </motion.div>
@@ -122,6 +147,7 @@ export function Hero() {
       <div className="pointer-events-none absolute bottom-8 left-1/2 z-[2] flex -translate-x-1/2 flex-col items-center gap-2 text-[0.55rem] tracking-[0.15em] text-muted uppercase">
         <div className="h-10 w-px bg-gradient-to-b from-transparent to-chrome2 animate-scrollpulse" />
         <span>PLZ SCROLL</span>
+      </div>
       </div>
     </section>
   );

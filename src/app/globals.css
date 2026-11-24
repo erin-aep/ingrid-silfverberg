@@ -36,6 +36,13 @@
 
 html {
   scroll-behavior: smooth;
+  /* Hide the scrollbar (scrolling still works). The scrollbar lives on the
+     root element, so it must be hidden here too — not only on body. */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+html::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -44,11 +51,34 @@ html {
   }
 }
 
+/* Lenis smooth scroll. When active, Lenis owns scrolling, so disable native
+   smooth behavior. (The library's global `iframe { pointer-events: none }`
+   rule is intentionally omitted so the Vimeo lightbox + Spline stay clickable.) */
+.lenis,
+.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
 body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-space-mono), ui-monospace, monospace;
-  overflow-x: hidden;
+  /* `clip` hides horizontal overflow WITHOUT creating a scroll container,
+     so `position: sticky` descendants (e.g. the hero scroll runway) keep
+     sticking to the viewport. `hidden` here would silently break them. */
+  overflow-x: clip;
+  /* Hide the scrollbar (scrolling still works). */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
 }
 
 /* Spline: 100% of hero viewport, scales proportionally on resize */
@@ -175,10 +205,190 @@ body {
   animation: marquee 18s linear infinite;
 }
 
+/* Living "blob": organic border-radius morph with a gentle breathe + drift.
+   The vertical colour orientation is preserved (no full rotation). */
+@keyframes blobmorph {
+  0% {
+    border-radius: 46% 54% 58% 42% / 42% 46% 54% 58%;
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  25% {
+    border-radius: 60% 40% 44% 56% / 56% 48% 52% 44%;
+    transform: translate(-2.5%, -1.5%) scale(1.04) rotate(2deg);
+  }
+  50% {
+    border-radius: 40% 60% 54% 46% / 62% 40% 60% 38%;
+    transform: translate(2.5%, 1%) scale(0.98) rotate(-2deg);
+  }
+  75% {
+    border-radius: 56% 44% 38% 62% / 44% 60% 40% 56%;
+    transform: translate(-1.5%, 1.5%) scale(1.03) rotate(1deg);
+  }
+  100% {
+    border-radius: 46% 54% 58% 42% / 42% 46% 54% 58%;
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+}
+
+.animate-blobmorph {
+  animation: blobmorph 16s ease-in-out infinite;
+}
+
+/* Per-character "ticker": each new character flashes white → rose → white
+   as it lands on the live brief receipt. */
+@keyframes charflash {
+  0% {
+    color: #ffffff;
+  }
+  50% {
+    color: #c73e5d;
+  }
+  100% {
+    color: #ffffff;
+  }
+}
+
+.char-flash {
+  animation: charflash 0.5s ease both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-shimmer,
   .animate-scrollpulse,
-  .animate-marquee {
+  .animate-marquee,
+  .animate-blobmorph,
+  .char-flash {
     animation: none;
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Hero headline — interactive gradient words ("vision" / "motion")
+   Editorial, minimal, expressive. Ambient gradient drift by default;
+   italic crossfade + subtle lift/skew on hover & keyboard focus.
+   Instrument Serif has no variable slant axis, so hover uses a
+   layered regular/italic crossfade (both layers share one box).
+   ────────────────────────────────────────────────────────────── */
+
+/* Slow, seamless horizontal drift. Gradients use symmetric stops
+   (A B C B A) at 200% background-size, so the 0% and 200% frames are
+   identical and the loop never snaps. */
+@keyframes hero-grad-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+.hero-word {
+  position: relative;
+  display: inline-block;
+  vertical-align: baseline;
+  /* organic settle on hover / focus */
+  transition:
+    transform 550ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 550ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.hero-word__layer {
+  display: inline-block;
+  background-size: 200% 100%;
+  background-position: 0% 50%; /* static gradient fallback */
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* real, selectable text; crossfades out on hover */
+.hero-word__layer--regular {
+  transition: opacity 550ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* decorative italic layer, pinned exactly over the regular layer */
+.hero-word__layer--italic {
+  position: absolute;
+  inset: 0;
+  font-style: italic;
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+  transition: opacity 550ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* "vision" — pink → purple */
+.hero-word-vision .hero-word__layer {
+  background-image: linear-gradient(
+    100deg,
+    var(--pink),
+    var(--chrome2),
+    var(--chrome3),
+    var(--chrome2),
+    var(--pink)
+  );
+  animation: hero-grad-flow 10s linear infinite;
+}
+
+/* "motion" — purple → magenta; reversed + phase-shifted so the two
+   words never drift in mechanical lockstep */
+.hero-word-motion .hero-word__layer {
+  background-image: linear-gradient(
+    100deg,
+    var(--chrome2),
+    var(--pink),
+    var(--magenta),
+    var(--pink),
+    var(--chrome2)
+  );
+  animation: hero-grad-flow 12s linear infinite reverse;
+  animation-delay: -4s;
+}
+
+/* Hover (pointer devices only — touch keeps the clean default state) */
+@media (hover: hover) {
+  .hero-word:hover {
+    transform: translatey(-3px) skewx(-5deg);
+    /* intensify without changing animation timing, so the ambient
+       drift continues seamlessly instead of restarting */
+    filter: saturate(1.4) brightness(1.08);
+  }
+  .hero-word:hover .hero-word__layer--regular {
+    opacity: 0;
+  }
+  .hero-word:hover .hero-word__layer--italic {
+    opacity: 1;
+  }
+}
+
+/* Keyboard focus — equivalent treatment (the italic + lift is the
+   focus indicator, so the default outline would only muddy the text) */
+.hero-word:focus-visible {
+  outline: none;
+  transform: translateY(-3px) skewX(-5deg);
+  filter: saturate(1.4) brightness(1.08);
+}
+.hero-word:focus-visible .hero-word__layer--regular {
+  opacity: 0;
+}
+.hero-word:focus-visible .hero-word__layer--italic {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-word {
+    transition: none;
+  }
+  /* keep a static, readable gradient fallback */
+  .hero-word-vision .hero-word__layer,
+  .hero-word-motion .hero-word__layer {
+    animation: none;
+  }
+  .hero-word:hover,
+  .hero-word:focus-visible {
+    transform: none;
+    filter: none;
   }
 }
